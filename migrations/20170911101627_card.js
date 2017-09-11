@@ -3,8 +3,8 @@ exports.up = function(knex, Promise) {
     table.increments('id').primary();
     table.text('term').notNull();
     table.text('definition').notNull();
-    table.text('hint').notNull();
-    table.text('image').notNull();
+    table.text('hint').nullable();
+    table.text('image').nullable();
     table.boolean('completed').notNull();
     table.integer('deck_id').unsigned().references('id').inTable('deck').onDelete('cascade');
   });
