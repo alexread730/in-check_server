@@ -15,7 +15,7 @@ const deck_days = [
   },
   {
     deck_id: 3,
-    day_id: 5,
+    day_id: 4,
     startTime: "9:00",
     endTime: "17:00",
     interval: 10

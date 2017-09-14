@@ -52,6 +52,8 @@ router.put('/:id/decks/:num', (req, res) => {
 });
 
 router.post('/twilio', (req, res) => {
+  //check 
+  console.log(req);
   const twiml = new MessagingResponse();
   twiml.message('message');
   res.writeHead(200, {'Content-Type': 'text/xml'});

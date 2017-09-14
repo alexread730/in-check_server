@@ -5,6 +5,12 @@ module.exports = {
   getOne: id => {
     return knex('account').where('id', id);
   },
+  updateCard: (card, id) => {
+    return knex('account_card').where('account_id', id)
+      // .update({
+      //
+      // })
+  },
   findUserByEmail: email => {
   return knex('account').where('email', email).first();
   },

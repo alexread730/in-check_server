@@ -5,7 +5,9 @@ module.exports = {
     return knex('deck_day')
       .join('deck', 'deck_id', 'deck.id')
       .join('day', 'day_id', 'day.id')
-      .join('account', 'creator_id', 'account.id');
+      .join('account', 'creator_id', 'account.id')
+      .join('account_card', 'account.id', 'account_id')
+      .join('card', 'card_id', 'card.id');;
   },
   //get user decks
   getDecks: id => {

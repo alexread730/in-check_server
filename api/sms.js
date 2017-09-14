@@ -15,32 +15,40 @@ const client = new twilio(accountSid, authToken);
 
 const today = new Date();
 const dayNumber = today.getDay();
+let respondData = [];
 
 deckQueries.getAllDecks()
   .then(decks => {
     let promises = decks.filter(deck => {
       return deck.day_number == dayNumber
     }).map(deck => {
+      console.log(deck);
 
         return deckQueries.getDeckCards(null, deck.deck_id)
           .then(cards => {
-            console.log(cards);
-            return client.messages.create({
-              body: cards[0].term,
-              to: `+1${deck.phone}`,
-              from: '+14144093022'
-            })
+            let randomNum = Math.floor((Math.random() * cards.length));
+            let currentCard = cards[randomNum];
+             return accountQueries.updateCard(currentCard, deck.account_id)
+
+            //post term, defition, lastDeck, and lastTextSent to deck
+
+            // console.log(cards);
+            // return client.messages.create({
+            //   body: cards[0].term,
+            //   to: `+1${deck.phone}`,
+            //   from: '+14144093022'
+            // })
 
           });
 
     })
     Promise.all(promises)
       .then(results => {
+        // console.log(respondData);
         console.log(results);
         // process.exit();
       });
   });
-
 
 
 // module.exports = router;

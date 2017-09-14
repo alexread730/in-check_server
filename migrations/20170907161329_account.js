@@ -6,6 +6,10 @@ exports.up = function(knex, Promise) {
     table.text('email').notNull();
     table.text('password').notNull();
     table.text('phone').notNull();
+    table.text('deckId').nullable();
+    table.text('lastText').nullable();
+    table.boolean('responded').notNull();
+    table.integer('resCount').notNull();
   })
 };
 
