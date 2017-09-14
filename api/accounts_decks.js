@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const accountQueries = require('../db/account_queries');
 const deckQueries = require('../db/deck_queries');
-const twilioQueries = require('../db/twilio_queries');
+const twilio = require('twilio');
 
 const knex = require('../db/knex')
 
@@ -50,6 +50,13 @@ router.put('/:id/decks/:num', (req, res) => {
       })
     })
 });
+
+router.post('/twilio', (req, res) => {
+  const twiml =  new twilio.TwimlResponse();
+  twiml.message('message');
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+})
 
 
 

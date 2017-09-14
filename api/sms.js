@@ -3,7 +3,7 @@ const router = express.Router();
 const accountQueries = require('../db/account_queries');
 const deckQueries = require('../db/deck_queries');
 
-const knex = require('../db/knex')
+const knex = require('../db/knex');
 
 const twilio = require('twilio');
 
@@ -36,6 +36,11 @@ deckQueries.getAllDecks()
     Promise.all(promises)
       .then(results => {
         console.log(results);
-        process.exit();
+        // process.exit();
       });
   });
+
+
+
+
+// module.exports = router;
