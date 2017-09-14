@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.text('endTime').notNull();
     table.integer('interval').nullable();
     table.integer('deck_id').unsigned().references('id').inTable('deck').onDelete('cascade');
-    table.integer('day_id').unsigned().references('id').inTable('deck').onDelete('cascade');
+    table.integer('day_id').unsigned().references('id').inTable('day').onDelete('cascade');
   });
 };
 

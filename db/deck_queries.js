@@ -4,7 +4,7 @@ module.exports = {
   getAllDecks: id => {
     return knex('deck_day')
       .join('deck', 'deck_id', 'deck.id')
-      .join('day', 'day_id', 'day_id')
+      .join('day', 'day_id', 'day.id')
       .join('account', 'creator_id', 'account.id');
   },
   //get user decks
