@@ -4,14 +4,23 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+require ('dotenv').config();
+const cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 
-const decks = require('./api/decks');
-const accounts = require('./api/accounts');
+// const decks = require('./api/decks');
+const accounts = require('./api/accounts_decks');
+
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,
+  credentials: true,
+  methods: "GET,PUT,POST,DELETE",
+  preflightContinue: false
+}));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -21,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/v1', decks);
+// app.use('/api/v1', decks);
 app.use('/api/v1/accounts', accounts);
 
 // catch 404 and forward to error handler

@@ -1,6 +1,6 @@
 const categories = [
   {
-    name: "Javascript"
+    name: "Programming"
   },
   {
     name: "HTML"
