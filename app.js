@@ -13,7 +13,6 @@ var users = require('./routes/users');
 var app = express();
 
 const accounts = require('./api/accounts_decks');
-// const twilio = require('./api/sms');
 
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
@@ -30,10 +29,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/api/v1', decks);
 app.use('/api/v1/accounts', accounts);
 
-// app.use('/twilio', twilio);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
