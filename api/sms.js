@@ -6,6 +6,7 @@ const deckQueries = require('../db/deck_queries');
 const knex = require('../db/knex');
 
 const twilio = require('twilio');
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const accountSid = 'AC2ca2a7c7a4f24588299ba6c63c15940d';
 const authToken = '0c3d035a8436dd0ca48e69431497159e';
@@ -39,7 +40,6 @@ deckQueries.getAllDecks()
         // process.exit();
       });
   });
-
 
 
 
