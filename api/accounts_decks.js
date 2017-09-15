@@ -56,7 +56,7 @@ router.post('/twilio', (req, res) => {
   let sender = req.body.From.substring(2)
   accountQueries.findAccountByPhone(sender)
     .then(account => {
-      console.log(account);
+      console.log('account: ', account, account.resCount);
       if (account.resCount == 0) {
         accountQueries.firstResUpdate(account.phone)
           .then(response => {
@@ -98,13 +98,8 @@ router.post('/twilio', (req, res) => {
             res.writeHead(200, {'Content-Type': 'text/xml'});
             res.end(twiml.toString());
           }
-
-
-
       }
-
     })
-
 })
 
 

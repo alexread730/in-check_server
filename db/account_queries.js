@@ -6,10 +6,9 @@ module.exports = {
     return knex('account').where('id', id);
   },
   updateCard: (card, id) => {
-    console.log('shitfucker!');
-    return knex('account_card').where('account_id', id).andWhere('card_id', card.id)
+    return knex('account_card').where('account_id', id)
       .update({
-        id: card.id
+        card_id: card.id
       })
   },
   updateAccount: (id, deckId) => {
