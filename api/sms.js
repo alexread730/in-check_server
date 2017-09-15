@@ -15,30 +15,51 @@ const client = new twilio(accountSid, authToken);
 
 const today = new Date();
 const dayNumber = today.getDay();
-let respondData = [];
+const currentHour = today.getHours();
+
+function filterDecks(decks) {
+
+  //filters to send to decks on current day
+  return allDecks = decks.filter(deck => {
+      return deck.day_number == dayNumber
+    })
+    //filters to send to only active decks
+    .filter(deck => {
+      return (deck.active == true);
+    })
+    //filters to send to decks within star and end time
+    .filter(deck => {
+      return (deck.startTime <= currentHour && deck.endTime >= currentHour)
+    })
+    .filter(deck => {
+      return (deck.termSent === false)
+    })
+
+}
 
 deckQueries.getAllDecks()
   .then(decks => {
-    let promises = decks.filter(deck => {
-      return deck.day_number == dayNumber
-    }).map(deck => {
-      console.log(deck);
-
+    let promises = filterDecks(decks)
+    .map(deck => {
+      console.log("deck: ",deck);
+        //retrieve cards for the chosen deck
         return deckQueries.getDeckCards(null, deck.deck_id)
           .then(cards => {
+            //pick a random card
             let randomNum = Math.floor((Math.random() * cards.length));
             let currentCard = cards[randomNum];
+            //update account with current card
              return accountQueries.updateCard(currentCard, deck.account_id)
+                .then(response => {
+                  return accountQueries.updateAccount(deck.account_id, deck.deck_id)
+                  //post term, defition, lastDeck, and lastTextSent to deck
 
-            //post term, defition, lastDeck, and lastTextSent to deck
-
-            // console.log(cards);
-            // return client.messages.create({
-            //   body: cards[0].term,
-            //   to: `+1${deck.phone}`,
-            //   from: '+14144093022'
-            // })
-
+                  // return client.messages.create({
+                  //   body: currentCard.term,
+                  //   to: `+1${deck.phone}`,
+                  //   from: '+14144093022'
+                  // })
+                })
           });
 
     })

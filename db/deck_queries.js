@@ -2,7 +2,7 @@ const knex = require('./knex');
 
 module.exports = {
   getAllDecks: id => {
-    return knex('deck_day')
+    return knex.select('*', 'deck.id as deck_id', 'deck_day.id as id').from('deck_day')
       .join('deck', 'deck_id', 'deck.id')
       .join('day', 'day_id', 'day.id')
       .join('account', 'creator_id', 'account.id')

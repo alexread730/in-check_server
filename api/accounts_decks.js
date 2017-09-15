@@ -52,12 +52,20 @@ router.put('/:id/decks/:num', (req, res) => {
 });
 
 router.post('/twilio', (req, res) => {
-  //check 
-  console.log(req);
-  const twiml = new MessagingResponse();
-  twiml.message('message');
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
+  //get account info from sender #
+  let sender = req.body.From.substring(2)
+  accountQueries.findAccountByPhone(sender)
+    .then(account => {
+      console.log(account);
+      accountQueries.firstResUpdate(account.phone)
+        .then(response => {
+            const twiml = new MessagingResponse();
+            twiml.message(`Definition: ${account.definition}. Respond with 'y' if your response was correct and 'n' if your response was incorrect!`);
+            res.writeHead(200, {'Content-Type': 'text/xml'});
+            res.end(twiml.toString());
+        })
+    })
+
 })
 
 
