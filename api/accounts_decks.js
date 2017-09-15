@@ -52,7 +52,7 @@ router.put('/:id/decks/:num', (req, res) => {
 });
 
 function markCard(account, res, completed) {
-  let status = completed ? 'completed!' : 'incomplete';
+  let status = completed ? 'completed' : 'incomplete';
 
   accountQueries.secondResUpdate(account.phone)
     .then(response => {
@@ -72,8 +72,7 @@ router.post('/twilio', (req, res) => {
   let sender = req.body.From.substring(2)
   accountQueries.findAccountByPhone(sender)
     .then(account => {
-      console.log('account: ', account, account.resCount);
-      if (account.resCount == 0) {
+      if (account.resCount == 0 && account.termSent == true) {
         accountQueries.firstResUpdate(account.phone)
           .then(response => {
               const twiml = new MessagingResponse();

@@ -18,7 +18,6 @@ const dayNumber = today.getDay();
 const currentHour = today.getHours();
 
 function filterDecks(decks) {
-
   //filters to send to decks on current day
   return allDecks = decks.filter(deck => {
       return deck.day_number == dayNumber
@@ -45,6 +44,9 @@ deckQueries.getAllDecks()
         //retrieve cards for the chosen deck
         return deckQueries.getDeckCards(null, deck.deck_id)
           .then(cards => {
+            cards = cards.filter(card => {
+              return card.completed == false;
+            })
             //pick a random card
             let randomNum = Math.floor((Math.random() * cards.length));
             let currentCard = cards[randomNum];
@@ -57,14 +59,12 @@ deckQueries.getAllDecks()
                         body: currentCard.term,
                         to: `+1${deck.phone}`,
                         from: '+14144093022'
-                      })
-
-                    })
-
-                })
+                      });
+                    });
+                });
           });
 
-    })
+    });
     Promise.all(promises)
       .then(results => {
         // console.log(respondData);
