@@ -12,7 +12,7 @@ const decks =
       name: 'Star Wars',
       description: 'People and places from the Star Wars universe.',
       private: true,
-      active: true,
+      active: false,
       creator_id: 1
     },
     {

@@ -41,7 +41,7 @@ deckQueries.getAllDecks()
   .then(decks => {
     let promises = filterDecks(decks)
     .map(deck => {
-      console.log("deck: ",deck);
+      // console.log("deck: ",deck);
         //retrieve cards for the chosen deck
         return deckQueries.getDeckCards(null, deck.deck_id)
           .then(cards => {
@@ -52,13 +52,15 @@ deckQueries.getAllDecks()
              return accountQueries.updateCard(currentCard, deck.account_id)
                 .then(response => {
                   return accountQueries.updateAccount(deck.account_id, deck.deck_id)
-                  //post term, defition, lastDeck, and lastTextSent to deck
+                    .then(response => {
+                      return client.messages.create({
+                        body: currentCard.term,
+                        to: `+1${deck.phone}`,
+                        from: '+14144093022'
+                      })
 
-                  // return client.messages.create({
-                  //   body: currentCard.term,
-                  //   to: `+1${deck.phone}`,
-                  //   from: '+14144093022'
-                  // })
+                    })
+
                 })
           });
 

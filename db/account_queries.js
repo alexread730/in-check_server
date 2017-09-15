@@ -6,7 +6,7 @@ module.exports = {
     return knex('account').where('id', id);
   },
   updateCard: (card, id) => {
-    console.log('card', card);
+    console.log('shitfucker!');
     return knex('account_card').where('account_id', id).andWhere('card_id', card.id)
       .update({
         id: card.id
@@ -36,11 +36,22 @@ module.exports = {
       .join('card', 'card_id', 'card.id').first();
   },
   firstResUpdate: phone => {
-    console.log(phone);
     return knex('account').where('phone', phone)
       .update({
         resCount: 1,
         termSent: false
+      })
+  },
+  secondResUpdate: (phone) => {
+    return knex('account').where('phone', phone)
+      .update({
+        resCount: 2
+      })
+  },
+  resetResCount: phone => {
+    return knex('account').where('phone', phone)
+      .update({
+        resCount: 0
       })
   }
 }

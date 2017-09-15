@@ -30,6 +30,12 @@ module.exports = {
       .update({
         interval: updateData.interval
       })
+  },
+  updateCard: (id, completed) => {
+    return knex('card').where('id', id)
+      .update({
+        completed: completed
+      })
   }
 
 }

@@ -57,13 +57,52 @@ router.post('/twilio', (req, res) => {
   accountQueries.findAccountByPhone(sender)
     .then(account => {
       console.log(account);
-      accountQueries.firstResUpdate(account.phone)
-        .then(response => {
+      if (account.resCount == 0) {
+        accountQueries.firstResUpdate(account.phone)
+          .then(response => {
+              const twiml = new MessagingResponse();
+              twiml.message(`Definition: ${account.definition}. Respond with 'y' if your response was correct and 'n' if your response was incorrect!`);
+              res.writeHead(200, {'Content-Type': 'text/xml'});
+              res.end(twiml.toString());
+          })
+      } else if (account.resCount == 1) {
+          if (req.body.Body.toLowerCase() == 'y') {
+            accountQueries.secondResUpdate(account.phone)
+              .then(response => {
+                deckQueries.updateCard(account.card_id, true)
+                  const twiml = new MessagingResponse();
+                  twiml.message(`Card marked as completed!`);
+                  res.writeHead(200, {'Content-Type': 'text/xml'});
+                  res.end(twiml.toString());
+              })
+              .then(response => {
+                return accountQueries.resetResCount(account.phone);
+              })
+          } else if (req.body.Body.toLowerCase() == 'n') {
+            accountQueries.secondResUpdate(account.phone)
+              .then(response => {
+                deckQueries.updateCard(account.card_id, false)
+                  .then(response => {
+                    const twiml = new MessagingResponse();
+                    twiml.message(`Card marked as incomplete.`);
+                    res.writeHead(200, {'Content-Type': 'text/xml'});
+                    res.end(twiml.toString());
+                  })
+                    .then(response => {
+                      return accountQueries.resetResCount(account.phone);
+                    })
+              })
+          } else {
             const twiml = new MessagingResponse();
-            twiml.message(`Definition: ${account.definition}. Respond with 'y' if your response was correct and 'n' if your response was incorrect!`);
+            twiml.message(`Please enter 'y' for correct, or 'n' for incorrect.`);
             res.writeHead(200, {'Content-Type': 'text/xml'});
             res.end(twiml.toString());
-        })
+          }
+
+
+
+      }
+
     })
 
 })
