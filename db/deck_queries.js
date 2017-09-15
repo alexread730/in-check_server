@@ -32,6 +32,7 @@ module.exports = {
       })
   },
   updateCard: (id, completed) => {
+    console.log(typeof completed);
     return knex('card').where('id', id)
       .update({
         completed: completed

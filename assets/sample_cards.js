@@ -12,7 +12,7 @@ const cards = [
     definition: "JavaScript strings are used for storing and manipulating text.",
     hint: "words",
     image: "",
-    completed: true,
+    completed: false,
     deck_id: 1
   },
   {
