@@ -51,6 +51,22 @@ router.put('/:id/decks/:num', (req, res) => {
     })
 });
 
+function markCard(account, res, completed) {
+  let status = completed ? 'completed!' : 'incomplete';
+
+  accountQueries.secondResUpdate(account.phone)
+    .then(response => {
+      deckQueries.updateCard(account.card_id, completed)
+        const twiml = new MessagingResponse();
+        twiml.message(`Card marked as ${status}!`);
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
+    })
+    .then(response => {
+      return accountQueries.resetResCount(account.phone);
+    })
+}
+
 router.post('/twilio', (req, res) => {
   //get account info from sender #
   let sender = req.body.From.substring(2)
@@ -67,31 +83,11 @@ router.post('/twilio', (req, res) => {
           })
       } else if (account.resCount == 1) {
           if (req.body.Body.toLowerCase() == 'y') {
-            accountQueries.secondResUpdate(account.phone)
-              .then(response => {
-                deckQueries.updateCard(account.card_id, true)
-                  const twiml = new MessagingResponse();
-                  twiml.message(`Card marked as completed!`);
-                  res.writeHead(200, {'Content-Type': 'text/xml'});
-                  res.end(twiml.toString());
-              })
-              .then(response => {
-                return accountQueries.resetResCount(account.phone);
-              })
+            //mark card complete
+            markCard(account, res, true);
           } else if (req.body.Body.toLowerCase() == 'n') {
-            accountQueries.secondResUpdate(account.phone)
-              .then(response => {
-                deckQueries.updateCard(account.card_id, false)
-                  .then(response => {
-                    const twiml = new MessagingResponse();
-                    twiml.message(`Card marked as incomplete.`);
-                    res.writeHead(200, {'Content-Type': 'text/xml'});
-                    res.end(twiml.toString());
-                  })
-                    .then(response => {
-                      return accountQueries.resetResCount(account.phone);
-                    })
-              })
+            //mark card incomplete
+            markCard(account, res, false);
           } else {
             const twiml = new MessagingResponse();
             twiml.message(`Please enter 'y' for correct, or 'n' for incorrect.`);

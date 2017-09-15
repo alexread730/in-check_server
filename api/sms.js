@@ -48,7 +48,6 @@ deckQueries.getAllDecks()
             //pick a random card
             let randomNum = Math.floor((Math.random() * cards.length));
             let currentCard = cards[randomNum];
-            console.log('currentCard: ', currentCard);
             //update account with current card
              return accountQueries.updateCard(currentCard, deck.account_id)
                 .then(response => {
