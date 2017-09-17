@@ -43,6 +43,7 @@ router.get('/:id/decks/:num/info', (req, res) => {
 
 //update deck interval
 router.put('/:id/decks/:num', (req, res) => {
+  console.log('whats up');
   deckQueries.updateInterval(req.params.id, req.params.num, req.body)
     .then(deck => {
       res.json({
@@ -53,7 +54,6 @@ router.put('/:id/decks/:num', (req, res) => {
 
 function markCard(account, res, completed) {
   let status = completed ? 'completed' : 'incomplete';
-  console.log(account);
 
   accountQueries.secondResUpdate(account.phone)
     .then(response => {

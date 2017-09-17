@@ -2,8 +2,10 @@ const knex = require('./knex');
 
 module.exports = {
   //get user decks
-  getOne: id => {
-    return knex('account').where('id', id);
+  createNewAccount: account => {
+    return knex('account').insert(account).then(Account => {
+      return Account[0];
+    });
   },
   updateCard: (card, id) => {
     return knex('account_card').where('account_id', id)
