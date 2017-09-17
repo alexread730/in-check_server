@@ -40,13 +40,21 @@ deckQueries.getAllDecks()
   .then(decks => {
     let promises = filterDecks(decks)
     .map(deck => {
-      // console.log("deck: ",deck);
+      console.log("deck: ",deck);
         //retrieve cards for the chosen deck
         return deckQueries.getDeckCards(null, deck.deck_id)
           .then(cards => {
             cards = cards.filter(card => {
               return card.completed == false;
             })
+
+            if (cards.length == 0) {
+              deckQueries.resetDeck(deck.deck_id)
+                .then((response) => {
+                  console.log(response);
+                })
+            }
+
             //pick a random card
             let randomNum = Math.floor((Math.random() * cards.length));
             let currentCard = cards[randomNum];
@@ -64,11 +72,10 @@ deckQueries.getAllDecks()
                 });
           });
 
-    });
+    })
     Promise.all(promises)
       .then(results => {
-        // console.log(respondData);
-        console.log(results);
+        // console.log(results);
         // process.exit();
       });
   });

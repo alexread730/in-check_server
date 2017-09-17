@@ -37,6 +37,12 @@ module.exports = {
       .update({
         completed: completed
       })
+  },
+  resetDeck: id => {
+    return knex('card').where('deck_id', id)
+      .update({
+        completed: false
+      })
   }
 
 }

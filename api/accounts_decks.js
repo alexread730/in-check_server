@@ -52,7 +52,7 @@ router.put('/:id/decks/:num', (req, res) => {
 });
 
 function markCard(account, res, completed) {
-  let status = completed ? 'completed!' : 'incomplete';
+  let status = completed ? 'completed' : 'incomplete';
   console.log(account);
 
   accountQueries.secondResUpdate(account.phone)
@@ -62,7 +62,7 @@ function markCard(account, res, completed) {
           const twiml = new MessagingResponse();
           twiml.message(`Card marked as ${status}!`);
           res.writeHead(200, {'Content-Type': 'text/xml'});
-          res.end(twiml.toString());
+          res.end(twiml.toString());cd
         })
 
     })
