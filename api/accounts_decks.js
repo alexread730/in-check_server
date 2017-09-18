@@ -42,38 +42,35 @@ router.get('/:id/decks/:num/info', (req, res) => {
 });
 
 //update deck interval
-router.put('/:id/decks/:num', (req, res) => {
-  console.log(req.body);
-  let promises = req.body.deckDays.map(day => {
-    return deckQueries.getOneDeckDay(req.body.deck_id, day)
-      .then(deck => {
-        console.log(deck.length);
-        if (deck.length < 1) {
-          console.log('create');
-          return deckQueries.createDeckDay(req.body, day)
-            .then(response => {
-              res.json({message: response});
+router.put('/:id/decks/:num', (req, res, next) => {
+  let promise = deckQueries.updateDeckInfo(req.params.id, req.body)
+      .then(() => {
+        return Promise.all(req.body.deckDays.map(day => {
+          return deckQueries.getOneDeckDay(req.body.deck_id, day)
+            .then(deck => {
+              console.log('length: ', deck.length);
+              //if instance was not found, make a new one
+              if (deck.length < 1) {
+                console.log('create');
+                return deckQueries.createDeckDay(req.body, day)
+              //if instance was found, update existing
+              } else {
+                console.log('update');
+                return deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
+                  .then(response => {
+                    return deckQueries.updateDeckInfo(req.params.id, req.body)
+                  })
+              }
             })
-        } else {
-          console.log('update');
-          return deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
-            .then(response => {
-              res.json({message: response})
-            })
-        }
-      })
-
-    // deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
-    //   .then(deck => {
-    //     res.json({
-    //       message: 'updated interval!'
-    //     })
-    //   })
+        }));
   });
 
-  Promise.all(promises)
-    .then(results => {
-      console.log(results);
+    promise.then(results => {
+      res.json({message: 'completed!'})
+    })
+    .catch((error) => {
+      console.log(error);
+      next(error)
     })
 
 });

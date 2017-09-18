@@ -49,6 +49,13 @@ module.exports = {
           endTime: updateData.endTime
         })
   },
+  updateDeckInfo: (id, updateData) => {
+    return knex('deck').where('id', id)
+      .update({
+        name: updateData.deckName,
+        description: updateData.deckDesc
+      })
+  },
   updateCard: (id, completed) => {
     return knex('card').where('id', id)
       .update({
