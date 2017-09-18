@@ -21,7 +21,7 @@ module.exports = {
     .join('deck_day', 'deck_id', 'deck.id');
   },
   createDeckDay: (deck, day) => {
-    console.log(day);
+    console.log('create');
     return knex('deck_day').insert({
       interval: deck.interval,
       startTime: deck.startTime,
@@ -40,17 +40,16 @@ module.exports = {
   },
   //update a deck's interval
   updateDeck: (id, num, updateData, dayNum) => {
+    console.log('update');
     return knex('deck_day').where('deck_id', num)
-      .update({
-        interval: updateData.interval,
-        startTime: updateData.startTime,
-        endTime: updateData.endTime,
-        deck_id: updateData.deck_id,
-        day_id: dayNum
-      })
+      .andWhere('day_id', dayNum)
+        .update({
+          interval: updateData.interval,
+          startTime: updateData.startTime,
+          endTime: updateData.endTime
+        })
   },
   updateCard: (id, completed) => {
-    console.log(typeof completed);
     return knex('card').where('id', id)
       .update({
         completed: completed
