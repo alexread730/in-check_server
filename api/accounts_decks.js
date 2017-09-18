@@ -43,16 +43,37 @@ router.get('/:id/decks/:num/info', (req, res) => {
 
 //update deck interval
 router.put('/:id/decks/:num', (req, res) => {
-
-  req.body.deckDays.forEach(day => {
-    console.log(day);
-    deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
+  console.log(req.body);
+  let promises = req.body.deckDays.map(day => {
+    return deckQueries.getOneDeckDay(req.body.deck_id, day+1)
       .then(deck => {
-        res.json({
-          message: 'updated interval!'
-        })
+        if (deck.length < 1) {
+          console.log('create');
+          return deckQueries.createDeckDay(req.body, day+1)
+            .then(response => {
+              res.json({message: response});
+            })
+        } else {
+          console.log('update');
+          return deckQueries.updateDeck(req.params.id, req.params.num, req.body, day+1)
+            .then(response => {
+              res.json({message: response})
+            })
+        }
       })
-  })
+
+    // deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
+    //   .then(deck => {
+    //     res.json({
+    //       message: 'updated interval!'
+    //     })
+    //   })
+  });
+
+  Promise.all(promises)
+    .then(results => {
+      console.log(results);
+    })
 
 });
 

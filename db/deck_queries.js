@@ -20,19 +20,34 @@ module.exports = {
     return knex.select('*').from('deck').where('deck.id', num)
     .join('deck_day', 'deck_id', 'deck.id');
   },
+  createDeckDay: (deck, day) => {
+    console.log(day);
+    return knex('deck_day').insert({
+      interval: deck.interval,
+      startTime: deck.startTime,
+      endTime: deck.endTime,
+      deck_id: deck.deck_id,
+      day_id: day
+    })
+  },
+  getOneDeckDay: (id, num) => {
+    return knex.select('*').from('deck_day').where('deck_id', id)
+      .andWhere('day_id', num);
+  },
   //get cards for a specific deck
   getDeckCards: (id, num) => {
     return knex('card').where('deck_id', num);
   },
   //update a deck's interval
   updateDeck: (id, num, updateData, dayNum) => {
-    console.log(dayNum);
-
     return knex('deck_day').where('deck_id', num)
-    // return knex('deck_day').where('deck_id', num)
-    //   .update({
-    //     interval: updateData.interval
-    //   })
+      .update({
+        interval: updateData.interval,
+        startTime: updateData.startTime,
+        endTime: updateData.endTime,
+        deck_id: updateData.deck_id,
+        day_id: dayNum
+      })
   },
   updateCard: (id, completed) => {
     console.log(typeof completed);
