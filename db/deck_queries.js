@@ -25,11 +25,14 @@ module.exports = {
     return knex('card').where('deck_id', num);
   },
   //update a deck's interval
-  updateInterval: (id, num, updateData) => {
+  updateDeck: (id, num, updateData, dayNum) => {
+    console.log(dayNum);
+
     return knex('deck_day').where('deck_id', num)
-      .update({
-        interval: updateData.interval
-      })
+    // return knex('deck_day').where('deck_id', num)
+    //   .update({
+    //     interval: updateData.interval
+    //   })
   },
   updateCard: (id, completed) => {
     console.log(typeof completed);

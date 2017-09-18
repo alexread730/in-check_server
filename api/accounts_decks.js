@@ -43,13 +43,17 @@ router.get('/:id/decks/:num/info', (req, res) => {
 
 //update deck interval
 router.put('/:id/decks/:num', (req, res) => {
-  console.log('whats up');
-  deckQueries.updateInterval(req.params.id, req.params.num, req.body)
-    .then(deck => {
-      res.json({
-        message: 'updated interval!'
+
+  req.body.deckDays.forEach(day => {
+    console.log(day);
+    deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
+      .then(deck => {
+        res.json({
+          message: 'updated interval!'
+        })
       })
-    })
+  })
+
 });
 
 function markCard(account, res, completed) {
