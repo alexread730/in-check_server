@@ -45,6 +45,7 @@ router.get('/:id/decks/:num/info', (req, res) => {
 router.put('/:id/decks/:num', (req, res, next) => {
   let promise = deckQueries.updateDeckInfo(req.params.id, req.body)
       .then(() => {
+        console.log(req.body);
         return Promise.all(req.body.deckDays.map(day => {
           return deckQueries.getOneDeckDay(req.body.deck_id, day)
             .then(deck => {
