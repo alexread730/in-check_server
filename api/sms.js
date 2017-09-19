@@ -35,6 +35,10 @@ function filterDecks(decks) {
     .filter(deck => {
       return (deck.termSent === false)
     })
+    .filter(deck => {
+      const timeDiff = (today.getTime() - deck.lastText) * .00001666667;
+      return (timeDiff > deck.interval);
+    })
 
 }
 
