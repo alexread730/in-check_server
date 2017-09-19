@@ -107,7 +107,7 @@ router.post('/twilio', (req, res) => {
         accountQueries.firstResUpdate(account.phone)
           .then(response => {
               const twiml = new MessagingResponse();
-              twiml.message(`Definition: ${account.definition}. Respond with 'y' if your response was correct and 'n' if your response was incorrect!`);
+              twiml.message(`Definition: ${account.definition} Respond with 'y' if your response was correct and 'n' if your response was incorrect!`);
               res.writeHead(200, {'Content-Type': 'text/xml'});
               res.end(twiml.toString());
           })

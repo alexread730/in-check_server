@@ -3,7 +3,9 @@ const router = express.Router();
 const accountQueries = require('../db/account_queries');
 const deckQueries = require('../db/deck_queries');
 
+require ('dotenv').config();
 const knex = require('../db/knex');
+
 
 const twilio = require('twilio');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
