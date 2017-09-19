@@ -67,6 +67,9 @@ module.exports = {
       .update({
         completed: false
       })
+  },
+  deleteDeckDay: () => {
+    return knex('deck_day').del();
   }
 
 }

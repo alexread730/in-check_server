@@ -45,25 +45,28 @@ router.get('/:id/decks/:num/info', (req, res) => {
 router.put('/:id/decks/:num', (req, res, next) => {
   let promise = deckQueries.updateDeckInfo(req.params.id, req.body)
       .then(() => {
-        console.log(req.body);
-        return Promise.all(req.body.deckDays.map(day => {
-          return deckQueries.getOneDeckDay(req.body.deck_id, day)
+        return deckQueries.deleteDeckDay()
+        .then(() => {
+          console.log(req.body);
+          return Promise.all(req.body.deckDays.map(day => {
+            return deckQueries.getOneDeckDay(req.body.deck_id, day)
             .then(deck => {
               console.log('length: ', deck.length);
               //if instance was not found, make a new one
               if (deck.length < 1) {
                 console.log('create');
                 return deckQueries.createDeckDay(req.body, day)
-              //if instance was found, update existing
+                //if instance was found, update existing
               } else {
                 console.log('update');
                 return deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
-                  .then(response => {
-                    return deckQueries.updateDeckInfo(req.params.id, req.body)
-                  })
+                .then(response => {
+                  return deckQueries.updateDeckInfo(req.params.id, req.body)
+                })
               }
             })
-        }));
+          }));
+      })
   });
 
     promise.then(results => {
@@ -86,7 +89,7 @@ function markCard(account, res, completed) {
           const twiml = new MessagingResponse();
           twiml.message(`Card marked as ${status}!`);
           res.writeHead(200, {'Content-Type': 'text/xml'});
-          res.end(twiml.toString());cd
+          res.end(twiml.toString());
         })
 
     })
