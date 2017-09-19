@@ -37,6 +37,7 @@ function filterDecks(decks) {
     })
     .filter(deck => {
       const timeDiff = (today.getTime() - deck.lastText) * .00001666667;
+      console.log(timeDiff, deck.interval);
       return (timeDiff > deck.interval);
     })
 
