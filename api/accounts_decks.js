@@ -23,6 +23,22 @@ router.get('/:id/decks', (req, res) => {
     });
 });
 
+//Create Card for Deck
+router.post('/:id/decks/:num/card', (req, res) => {
+  deckQueries.createCard(req.body, req.params.num)
+    .then(card => {
+      res.json()
+    })
+})
+
+//Delete Card for Deck
+router.delete('/:id/decks/:num/card/:cardNum', (req, res) => {
+  deckQueries.deleteCard(req.params.cardNum)
+    .then(card => {
+      res.json(card)
+    })
+})
+
 //get cards for one deck
 router.get('/:id/decks/:num', (req, res) => {
   deckQueries.getDeckCards(req.params.id, req.params.num)
@@ -47,18 +63,14 @@ router.put('/:id/decks/:num', (req, res, next) => {
       .then(() => {
         return deckQueries.deleteDeckDay()
         .then(() => {
-          console.log(req.body);
           return Promise.all(req.body.deckDays.map(day => {
             return deckQueries.getOneDeckDay(req.body.deck_id, day)
             .then(deck => {
-              console.log('length: ', deck.length);
               //if instance was not found, make a new one
               if (deck.length < 1) {
-                console.log('create');
                 return deckQueries.createDeckDay(req.body, day)
                 //if instance was found, update existing
               } else {
-                console.log('update');
                 return deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
                 .then(response => {
                   return deckQueries.updateDeckInfo(req.params.id, req.body)
@@ -126,7 +138,7 @@ router.post('/twilio', (req, res) => {
           }
       }
     })
-})
+});
 
 
 

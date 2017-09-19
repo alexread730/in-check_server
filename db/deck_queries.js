@@ -70,6 +70,13 @@ module.exports = {
   },
   deleteDeckDay: () => {
     return knex('deck_day').del();
+  },
+  createCard: (card, id) => {
+    return knex('card').where('deck_id', id)
+      .insert(card)
+  },
+  deleteCard: (id) => {
+    return knex('card').where('id', id).del();
   }
 
 }

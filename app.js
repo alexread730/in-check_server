@@ -7,11 +7,6 @@ var bodyParser = require('body-parser');
 require ('dotenv').config();
 const cors = require('cors');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-
-
-
 var app = express();
 
 const accounts = require('./api/accounts_decks');
