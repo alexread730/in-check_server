@@ -57,7 +57,10 @@ router.post('/:id/decks', (req, res, next) => {
                     deck_day['deck_id'] = Number(id);
                     deckQueries.createDeckDay(deck_day, req.body.day_id)
                       .then(result => {
-                        res.json({deck_day_id: Number(result)})
+                        res.json({
+                          deck_day_id: Number(result),
+                          deck_id: Number(id)
+                        })
                       })
                   })
               })
@@ -75,6 +78,15 @@ router.post('/:id/decks', (req, res, next) => {
         })
     })
 })
+
+//Delete Deck
+router.delete('/:id/decks/:num', (req, res) => {
+  deckQueries.deleteDeck(req.params.num)
+    .then(card => {
+      res.json({deletedDeck: req.params.num})
+    })
+})
+
 
 //Create Card for Deck
 router.post('/:id/decks/:num/card', (req, res) => {
