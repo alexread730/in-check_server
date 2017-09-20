@@ -33,23 +33,44 @@ router.post('/:id/decks', (req, res, next) => {
     creator_id: req.body.creator_id
   }
 
-  //crests category/deck insert on new deck creation
+  let deck_day = {
+    interval: 20,
+    startTime: 9,
+    endTime: 17,
+    day_id: Number(req.body.day_id)
+  }
+
+  //creates category_deck insert on new deck creation
   deckQueries.createDeck(deck)
     .then(id => {
+      //see if category exists
       deckQueries.manageCategory(req.body.category)
         .then(category => {
-          if (!category) {
+          // console.log(category);
+          if (category) {
+            console.log(req.body.category);
+            //if no category, create a new one
             deckQueries.createCategory(req.body.category)
               .then(category_id => {
+                //insert to deck_category
                 deckQueries.createDeckCategory(Number(category_id), Number(id))
                   .then(response => {
-                    res.json({created_cat: response});
+                    deck_day['deck_id'] = Number(id);
+                    deckQueries.createDeckDay(deck_day, req.body.day_id)
+                      .then(result => {
+                        res.json({deck_day_id: Number(result)})
+                      })
                   })
               })
           } else {
+            //insert to deck_category
             deckQueries.createDeckCategory(category[Object.keys(category)[0]].id, Number(id))
               .then(response => {
-                res.json({added_cat: response});
+                deck_day['deck_id'] = Number(id);
+                deckQueries.createDeckDay(id, req.body.day_id)
+                  .then(result => {
+                    res.json({deck_day_id: Number(result)})
+                  })
               })
           }
         })
@@ -94,7 +115,7 @@ router.get('/:id/decks/:num/info', (req, res) => {
 router.put('/:id/decks/:num', (req, res, next) => {
   let promise = deckQueries.updateDeckInfo(req.params.id, req.body)
       .then(() => {
-        return deckQueries.deleteDeckDay()
+        return deckQueries.deleteDeckDay(req.params.id)
         .then(() => {
           return Promise.all(req.body.deckDays.map(day => {
             return deckQueries.getOneDeckDay(req.body.deck_id, day)
@@ -104,7 +125,7 @@ router.put('/:id/decks/:num', (req, res, next) => {
                 return deckQueries.createDeckDay(req.body, day)
                 //if instance was found, update existing
               } else {
-                return deckQueries.updateDeck(req.params.id, req.params.num, req.body, day)
+                return deckQueries.updateDeck(req.params.num, req.params.num, req.body, day)
                 .then(response => {
                   return deckQueries.updateDeckInfo(req.params.id, req.body)
                 })

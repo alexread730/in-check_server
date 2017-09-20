@@ -2,7 +2,7 @@
 const decks =
 	[
 		{
-      name: 'Javascript',
+      name: 'JavaScript',
       description: 'Common terms for the Javascript language.',
       private: true,
       active: true,

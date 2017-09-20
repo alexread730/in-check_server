@@ -30,7 +30,7 @@ module.exports = {
       endTime: deck.endTime,
       deck_id: deck.deck_id,
       day_id: day
-    })
+    }, 'id')
   },
   manageCategory: name => {
     return knex('category').where('name', name);
@@ -56,7 +56,6 @@ module.exports = {
   },
   //update a deck's interval
   updateDeck: (id, num, updateData, dayNum) => {
-    console.log('update');
     return knex('deck_day').where('deck_id', num)
       .andWhere('day_id', dayNum)
         .update({
@@ -84,8 +83,8 @@ module.exports = {
         completed: false
       })
   },
-  deleteDeckDay: () => {
-    return knex('deck_day').del();
+  deleteDeckDay: id => {
+    return knex('deck_day').where('deck_id', id).del();
   },
   createCard: (card, id) => {
     return knex('card').where('deck_id', id)
