@@ -20,8 +20,10 @@ module.exports = {
     return knex.select('*').from('deck').where('deck.id', num)
     .join('deck_day', 'deck_id', 'deck.id');
   },
+  createDeck: (deck) => {
+    return knex('deck').insert(deck, 'id');
+  },
   createDeckDay: (deck, day) => {
-    console.log('create');
     return knex('deck_day').insert({
       interval: deck.interval,
       startTime: deck.startTime,
@@ -29,6 +31,20 @@ module.exports = {
       deck_id: deck.deck_id,
       day_id: day
     })
+  },
+  manageCategory: name => {
+    return knex('category').where('name', name);
+  },
+  createCategory: name => {
+    const category = {name: name}
+    return knex('category').insert(category, 'id');
+  },
+  createDeckCategory: (cat_id, deckId) => {
+    let object = {
+      category_id: cat_id,
+      deck_id: deckId
+    }
+    return knex('deck_category').insert(object, 'id');
   },
   getOneDeckDay: (id, num) => {
     return knex.select('*').from('deck_day').where('deck_id', id)

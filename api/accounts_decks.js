@@ -23,6 +23,40 @@ router.get('/:id/decks', (req, res) => {
     });
 });
 
+//create new deck
+router.post('/:id/decks', (req, res, next) => {
+  let deck = {
+    name: req.body.name,
+    description: req.body.description,
+    private: req.body.private,
+    active: req.body.active,
+    creator_id: req.body.creator_id
+  }
+
+  //crests category/deck insert on new deck creation
+  deckQueries.createDeck(deck)
+    .then(id => {
+      deckQueries.manageCategory(req.body.category)
+        .then(category => {
+          if (!category.name) {
+            deckQueries.createCategory(req.body.category)
+              .then(category_id => {
+                deckQueries.createDeckCategory(Number(category_id), Number(id))
+                  .then(response => {
+                    res.json({created_cat: response});
+                  })
+              })
+          } else {
+            deckQueries.createDeckCategory(category.id, id)
+              .then(response => {
+                res.json({added_cat: response});
+              })
+          }
+
+        })
+    })
+})
+
 //Create Card for Deck
 router.post('/:id/decks/:num/card', (req, res) => {
   deckQueries.createCard(req.body, req.params.num)
@@ -35,7 +69,7 @@ router.post('/:id/decks/:num/card', (req, res) => {
 router.delete('/:id/decks/:num/card/:cardNum', (req, res) => {
   deckQueries.deleteCard(req.params.cardNum)
     .then(card => {
-      res.json(card)
+      res.json({card: req.params.cardNum})
     })
 })
 
