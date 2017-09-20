@@ -10,6 +10,9 @@ const categories = [
   },
   {
     name: "React"
+  },
+  {
+    name: "Science"
   }
 ]
 

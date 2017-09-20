@@ -48,7 +48,6 @@ router.post('/:id/decks', (req, res, next) => {
         .then(category => {
           // console.log(category);
           if (category) {
-            console.log(req.body.category);
             //if no category, create a new one
             deckQueries.createCategory(req.body.category)
               .then(category_id => {
@@ -113,7 +112,7 @@ router.get('/:id/decks/:num/info', (req, res) => {
 
 //update deck interval
 router.put('/:id/decks/:num', (req, res, next) => {
-  let promise = deckQueries.updateDeckInfo(req.params.id, req.body)
+  let promise = deckQueries.updateDeckInfo(req.body)
       .then(() => {
         return deckQueries.deleteDeckDay(req.params.id)
         .then(() => {

@@ -65,7 +65,7 @@ module.exports = {
         })
   },
   updateDeckInfo: (id, updateData) => {
-    return knex('deck').where('id', id)
+    return knex('deck').where('id', updateData.deck_id)
       .update({
         name: updateData.deckName,
         description: updateData.deckDesc

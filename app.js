@@ -14,7 +14,7 @@ const AuthMiddleware = require('./auth/middleware')
 var auth = require('./auth');
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN,
+  origin: '*',
   credentials: true,
   methods: "GET,PUT,POST,DELETE",
   preflightContinue: false

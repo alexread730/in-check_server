@@ -21,7 +21,7 @@ const deck_days = [
     interval: 10
   },
   {
-    deck_id: 2,
+    deck_id: 1,
     day_id: 4,
     startTime: 9,
     endTime: 23,
@@ -79,6 +79,20 @@ const deck_days = [
   {
     deck_id: 4,
     day_id: 6,
+    startTime: 9,
+    endTime: 23,
+    interval: 20
+  },
+  {
+    deck_id: 5,
+    day_id: 7,
+    startTime: 9,
+    endTime: 23,
+    interval: 20
+  },
+  {
+    deck_id: 6,
+    day_id: 3,
     startTime: 9,
     endTime: 23,
     interval: 20
