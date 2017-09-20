@@ -38,7 +38,7 @@ router.post('/:id/decks', (req, res, next) => {
     .then(id => {
       deckQueries.manageCategory(req.body.category)
         .then(category => {
-          if (!category.name) {
+          if (!category) {
             deckQueries.createCategory(req.body.category)
               .then(category_id => {
                 deckQueries.createDeckCategory(Number(category_id), Number(id))
@@ -47,12 +47,11 @@ router.post('/:id/decks', (req, res, next) => {
                   })
               })
           } else {
-            deckQueries.createDeckCategory(category.id, id)
+            deckQueries.createDeckCategory(category[Object.keys(category)[0]].id, Number(id))
               .then(response => {
                 res.json({added_cat: response});
               })
           }
-
         })
     })
 })
