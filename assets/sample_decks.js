@@ -5,7 +5,7 @@ const decks =
       name: 'Star Wars',
       description: 'People and places from the Star Wars universe.',
       private: true,
-      active: true,
+      active: false,
       creator_id: 1
 		},
     {
@@ -33,14 +33,14 @@ const decks =
       name: 'HTML',
       description: 'HTML terms and concepts.',
       private: true,
-      active: true,
+      active: false,
       creator_id: 2
     },
     {
       name: 'React',
       description: 'ReactJS terms and concepts.',
       private: true,
-      active: true,
+      active: false,
       creator_id: 2
     }
 	];
