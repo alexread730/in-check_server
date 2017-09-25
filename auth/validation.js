@@ -1,10 +1,10 @@
 // User Validation
 function isUserValid(account) {
-  const hasValidFirstName = typeof account.first_name == "string" && account.first_name.trim() != '';
-  const hasValidLastName = typeof account.last_name == "string" && account.last_name.trim() != '';
-  const hasValidEmail = validEmailAddress(account.email);
-  const hasValidPassword = validPassword(account.password)
-  return hasValidEmail && hasValidFirstName && hasValidLastName && hasValidPassword;
+  const hasValidFirstName = typeof account.firstName == "string" && account.firstName.trim() != '';
+  const hasValidLastName = typeof account.lastName == "string" && account.lastName.trim() != '';
+  // const hasValidEmail = validEmailAddress(account.email);
+  // const hasValidPassword = validPassword(account.password)
+  return  hasValidFirstName && hasValidLastName;
 }
 
 // Validation for Login

@@ -10,7 +10,7 @@ const cors = require('cors');
 var app = express();
 
 const accounts = require('./api/accounts_decks');
-const AuthMiddleware = require('./auth/middleware')
+const authMiddleware = require('./auth/middleware')
 var auth = require('./auth');
 
 app.use(cors({
@@ -28,8 +28,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(authMiddleware.checkTokenSetUser);
 app.use('/api/v1/accounts', accounts);
-app.use('api/v1/auth', auth);
+app.use('/api/v1/auth', auth);
 
 
 // catch 404 and forward to error handler

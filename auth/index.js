@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/signup', (req, res, next) => {
+  console.log('in signup');
   if(validation.isUserValid(req.body)) {
     accountQueries.findUserByEmail(req.body.email)
       .then(user => {
@@ -26,8 +27,8 @@ router.post('/signup', (req, res, next) => {
                 email: req.body.email,
                 password: hash,
                 phone: req.body.phone,
-                deckId: 0,
-                lastText: 0,
+                deckId: null,
+                lastText: null,
                 termSent: false,
                 resCount: 0
               };
