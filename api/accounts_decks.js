@@ -4,6 +4,7 @@ const router = express.Router();
 const accountQueries = require('../db/account_queries');
 const deckQueries = require('../db/deck_queries');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const middleware = require('../auth/middleware');
 
 const knex = require('../db/knex')
 
@@ -16,7 +17,7 @@ router.get('/:id', (req, res) => {
 });
 
 //get decks for one account
-router.get('/:id/decks', (req, res) => {
+router.get('/:id/decks', middleware.allowAccess, (req, res) => {
   deckQueries.getDecks(req.params.id)
     .then(decks => {
       res.json(decks);
