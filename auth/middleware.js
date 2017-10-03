@@ -20,6 +20,7 @@ function checkTokenSetUser(req, res, next) {
 }
 
 function allowAccess(req, res, next){
+  console.log(req.user);
   if(req.user.id == req.params.id){
     next();
   }else{

@@ -7,6 +7,9 @@ module.exports = {
       return Account[0];
     });
   },
+  getOne: id => {
+    return knex('account').where('id', id);
+  },
   updateCard: (card, id) => {
     return knex('account_card').where('account_id', id)
       .update({
