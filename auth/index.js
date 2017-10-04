@@ -33,16 +33,19 @@ router.post('/signup', (req, res, next) => {
                 resCount: 0
               };
               accountQueries.createNewAccount(account)
-                .then(id => {
+                .then(newAccount => {
                   jwt.sign({
-                    id,
+                    newAccount,
                   }, process.env.TOKEN_SECRET, {
                     expiresIn: '7d'
                   }, (err, token) => {
                     console.log('err ', err);
                     console.log('token', token);
                     res.json({
-                      id,
+                      firstName: newAccount.firstName,
+                      lastName: newAccount.lastName,
+                      phone: newAccount.phone,
+                      id: newAccount.id,
                       email: account.email,
                       token,
                       message: "New Account Created"

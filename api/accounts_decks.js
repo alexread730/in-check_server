@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
 });
 
 //get decks for one account
-router.get('/:id/decks', (req, res) => {
+router.get('/:id/decks', middleware.allowAccess, (req, res) => {
   deckQueries.getDecks(req.params.id)
     .then(decks => {
       res.json(decks);

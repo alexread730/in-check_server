@@ -3,7 +3,7 @@ const knex = require('./knex');
 module.exports = {
   //get user decks
   createNewAccount: account => {
-    return knex('account').insert(account).then(Account => {
+    return knex('account').insert(account, '*').then(Account => {
       return Account[0];
     });
   },
