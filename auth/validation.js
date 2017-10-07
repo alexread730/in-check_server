@@ -4,7 +4,8 @@ function isUserValid(account) {
   const hasValidLastName = typeof account.lastName == "string" && account.lastName.trim() != '';
   // const hasValidEmail = validEmailAddress(account.email);
   // const hasValidPassword = validPassword(account.password)
-  return  hasValidFirstName && hasValidLastName;
+  const hasValidPhone = validPhone(account.phone);
+  return  hasValidFirstName && hasValidLastName && hasValidPhone;
 }
 
 // Validation for Login
@@ -35,7 +36,18 @@ function validPassword(userPassword) {
   }
 }
 
+function validPhone(userPhone) {
+  const validPhone = /\d{10}/;
+
+  if (userPhone.match(validPhone)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 module.exports = {
   isUserValid,
-  isLoginValid
+  isLoginValid,
+  validPhone
 }
