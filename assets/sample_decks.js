@@ -5,14 +5,14 @@ const decks =
       name: 'Star Wars',
       description: 'People and places from the Star Wars universe.',
       private: true,
-      active: false,
+      active: true,
       creator_id: 1
 		},
     {
       name: 'JavaScript',
       description: 'Common terms and concepts for the JavaScript Language',
       private: true,
-      active: false,
+      active: true,
       creator_id: 1
     },
     {

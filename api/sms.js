@@ -3,7 +3,7 @@ const router = express.Router();
 const accountQueries = require('../db/account_queries');
 const deckQueries = require('../db/deck_queries');
 
-require ('dotenv').config();
+require('dotenv').config({path: '../.env'});
 const knex = require('../db/knex');
 
 
@@ -12,7 +12,6 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const accountSid = 'AC2ca2a7c7a4f24588299ba6c63c15940d';
 const authToken = process.env.TWILIO_TOKEN;
-
 const client = new twilio(accountSid, authToken);
 
 const today = new Date();
@@ -37,7 +36,6 @@ function filterDecks(decks) {
     })
     .filter(deck => {
       const timeDiff = (today.getTime() - deck.lastText) * .00001666667;
-      console.log(timeDiff, deck.interval);
       return (timeDiff > deck.interval);
     })
 
